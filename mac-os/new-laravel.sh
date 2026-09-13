@@ -157,12 +157,16 @@ generate_password() {
 check_command() {
     local command_name="$1"
     local label="$2"
+    local install_hint="$3"
     local version
 
     info "Vérification de $label..."
 
     if ! command -v "$command_name" >/dev/null 2>&1; then
-        error "$label n'est pas installé ou n'est pas disponible dans le PATH."
+        error "$label n'est pas installé ou n'est pas disponible dans le PATH.
+
+Installation :
+$install_hint"
     fi
 
     version=$("$command_name" --version 2>/dev/null | head -n 1 || true)
@@ -194,13 +198,13 @@ success "Initialisation terminée"
 
 step "1/12 — Vérification des dépendances"
 
-check_command herd "Laravel Herd"
-check_command php "PHP"
-check_command composer "Composer"
-check_command laravel "Laravel Installer"
-check_command node "Node.js"
-check_command npm "npm"
-check_command git "Git"
+check_command herd "Laravel Herd" "https://herd.laravel.com"
+check_command php "PHP" "Fourni par Herd, ou : brew install php"
+check_command composer "Composer" "https://getcomposer.org/download/"
+check_command laravel "Laravel Installer" "composer global require laravel/installer"
+check_command node "Node.js" "https://nodejs.org  (ou : brew install node)"
+check_command npm "npm" "Installé automatiquement avec Node.js : https://nodejs.org"
+check_command git "Git" "brew install git  (ou : https://git-scm.com/downloads)"
 
 echo
 success "Toutes les dépendances nécessaires sont disponibles"
@@ -217,7 +221,11 @@ info "PHP utilisé : $(command -v php)"
 info "Version active : $PHP_VERSION"
 
 if ! php -r 'exit(version_compare(PHP_VERSION, "8.2.0", ">=") ? 0 : 1);'; then
-    error "PHP 8.2 minimum est requis."
+    error "PHP 8.2 minimum est requis (version actuelle : $PHP_VERSION).
+
+Installation / mise à jour :
+Dans Herd : ouvrir Herd > Settings > PHP, ou en CLI : herd use php@8.3
+Sans Herd : brew upgrade php  (ou : https://php.net/downloads)"
 fi
 
 success "Version PHP compatible"
@@ -244,7 +252,11 @@ if [[ "$LARAVEL_PATH" == *"Herd"* ]] || [[ "$LARAVEL_PATH" == *"herd"* ]]; then
     echo
 
     if ! herd laravel:update; then
-        error "Impossible de vérifier ou mettre à jour le Laravel Installer via Herd."
+        error "Impossible de vérifier ou mettre à jour le Laravel Installer via Herd.
+
+Installation manuelle :
+herd laravel:update
+(ou réinstaller Herd : https://herd.laravel.com)"
     fi
 
     echo
@@ -261,7 +273,10 @@ else
     echo
 
     if ! composer global update laravel/installer --no-interaction; then
-        error "Impossible de mettre à jour le Laravel Installer via Composer."
+        error "Impossible de mettre à jour le Laravel Installer via Composer.
+
+Installation manuelle :
+composer global require laravel/installer"
     fi
 
     echo
