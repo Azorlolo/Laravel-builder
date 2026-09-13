@@ -14,6 +14,8 @@ Exemple de chemin utilisé ici :
 /Users/tealforge/Dev/Scripts/new-laravel.sh
 ```
 
+##
+
 ```bash
 chmod +x /Users/tealforge/Dev/Scripts/new-laravel.sh
 ```
@@ -43,6 +45,8 @@ Exemple de chemin utilisé ici :
 ```text
 /Users/tealforge/Dev
 ```
+
+##
 
 ```bash
 cd /Users/tealforge/Dev
