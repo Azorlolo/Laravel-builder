@@ -21,6 +21,23 @@ Le script vérifie lui-même leur présence au démarrage et s'arrête avec un m
 
 ---
 
+## Télécharger le dossier du script
+
+Le dépôt contient un dossier par système d'exploitation (`mac-os`, `windows`, etc.). Télécharge celui qui correspond à ton OS.
+
+⚠️ **Il est important de télécharger le dossier entier, et non pas uniquement le fichier `new-laravel.sh`.** Le script a besoin du sous-dossier `templates/` (qui contient le README injecté dans chaque projet généré) situé juste à côté de lui. Si tu ne récupères que le `.sh` isolé, le script s'arrêtera à l'étape de remplacement du README avec une erreur `Template README introuvable`.
+
+Structure attendue une fois téléchargée :
+
+```text
+mon-os/
+├── new-laravel.sh
+└── templates/
+    └── README.md
+```
+
+---
+
 ## Installation du script
 
 ⚠️ Remplace le chemin ci-dessous par le chemin complet **de ton propre script** dans les 3 commandes suivantes.
